@@ -9,7 +9,7 @@ namespace Naumen
         /// </summary>
         /// <param name="classNames">Имена классов в проекте</param>
         /// <param name="modificationDates">Дата модификации класса в миллисекундах, прошедших с 1 января 1970 года</param>
-        void Refresh(IEnumerable<string> classNames, IEnumerable<long> modificationDates);
+        void Refresh(List<string> classNames, List<long> modificationDates);
 
         /// <summary>
         /// Ищет подходящие имена классов
@@ -17,6 +17,6 @@ namespace Naumen
         /// </summary>
         /// <param name="start">Начало имени класса</param>
         /// <returns>Список подходящих классов, упорядоченных по дате изменения</returns>
-        IEnumerable<string> Guess(string start);
+        List<string> Guess(string start);
     }
 }
