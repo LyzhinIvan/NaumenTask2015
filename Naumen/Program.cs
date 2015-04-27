@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Naumen
 {
@@ -15,6 +14,26 @@ namespace Naumen
         {
             int classesCount = Int32.Parse(Console.ReadLine());
             var classNames = GetRandomClassNames(classesCount);
+            var modificationDates = GetRandomDates(classesCount);
+            Stopwatch watch = new Stopwatch();
+            SimpleSearcher ss = new SimpleSearcher();
+            watch.Start();
+            ss.Refresh(classNames, modificationDates);
+            watch.Stop();
+            Console.WriteLine("Refresh: {0}мс", watch.ElapsedMilliseconds);
+            while (true)
+            {
+                string start = Console.ReadLine();
+                watch.Reset();
+                watch.Start();
+                List<string> variants = ss.Guess(start);
+                watch.Stop();
+                Console.WriteLine("Guess: {0}мс", watch.ElapsedMilliseconds);
+                foreach (var variant in variants)
+                {
+                    Console.WriteLine(variant);
+                }
+            }
         }
 
         static List<string> GetRandomClassNames(int quantity)
@@ -24,6 +43,15 @@ namespace Naumen
             while (classNames.Count < quantity)
                 classNames.Add(GetNextClassName());
             return classNames.ToList();
+        }
+
+        static List<long> GetRandomDates(int quantity)
+        {
+            LinkedList<long> dates = new LinkedList<long>();
+            for (int i = 0; i < quantity; ++i)
+                dates.AddLast(_random.Next(0, int.MaxValue));
+            return dates.ToList();
+
         }
 
         static string GetNextClassName()

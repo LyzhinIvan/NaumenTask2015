@@ -54,6 +54,7 @@ namespace Naumen
 
         private bool IsPrefix(string prefix, string full)
         {
+            if(prefix.Length>full.Length) return false;
             return full.Substring(0, prefix.Length) == prefix;
         }
     }
