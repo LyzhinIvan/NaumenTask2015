@@ -17,19 +17,41 @@ namespace Naumen
             var modificationDates = GetRandomDates(classesCount);
             Stopwatch watch = new Stopwatch();
             SimpleSearcher ss = new SimpleSearcher();
+            TreeSearcher ts = new TreeSearcher();
+            //Refresh searchers
             watch.Start();
             ss.Refresh(classNames, modificationDates);
             watch.Stop();
-            Console.WriteLine("Refresh: {0}мс", watch.ElapsedMilliseconds);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Refresh <ss>: {0}мс", watch.ElapsedMilliseconds);
+            Console.ForegroundColor = ConsoleColor.White;
+            watch.Restart();
+            ts.Refresh(classNames, modificationDates);
+            watch.Stop();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Refresh <ts>: {0}мс", watch.ElapsedMilliseconds);
+            Console.ForegroundColor = ConsoleColor.White;
+            //Queries
             while (true)
             {
                 string start = Console.ReadLine();
-                watch.Reset();
-                watch.Start();
-                List<string> variants = ss.Guess(start);
+                watch.Restart();
+                List<string> ssVariants = ss.Guess(start);
                 watch.Stop();
-                Console.WriteLine("Guess: {0}мс", watch.ElapsedMilliseconds);
-                foreach (var variant in variants)
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Guess <ss>: {0}мс", watch.ElapsedMilliseconds);
+                Console.ForegroundColor = ConsoleColor.White;
+                foreach (var variant in ssVariants)
+                {
+                    Console.WriteLine(variant);
+                }
+                watch.Restart();
+                List<string> tsVariants = ts.Guess(start);
+                watch.Stop();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Guess <ts>: {0}мс", watch.ElapsedMilliseconds);
+                Console.ForegroundColor = ConsoleColor.White;
+                foreach (var variant in tsVariants)
                 {
                     Console.WriteLine(variant);
                 }
