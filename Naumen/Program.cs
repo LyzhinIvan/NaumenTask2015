@@ -56,6 +56,7 @@ namespace Naumen
                     Console.WriteLine(variant);
                 }
             }
+            
         }
 
         static List<string> GetRandomClassNames(int quantity)
